@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
  include CreateNotification
 
+  def new
+
+  end
+
+  def create_new_user
+
+  end
+
   def flight_stat_apn_response
     msg = get_flight_details
     user = User.all
@@ -19,9 +27,8 @@ class UsersController < ApplicationController
         flight_stat_android_response msg,user
       end
     end
-    respond_to do |format|
-      format.html
-    end
+    flash[:notice] = 'Notification sent successfully!'
+    render :action => "new"
   end
 
   def flight_stat_android_response msg,user

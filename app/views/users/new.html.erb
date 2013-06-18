@@ -1,0 +1,9 @@
+<% if flash[:notice].present? %>
+    <p><%= flash[:notice] %></p>
+<% end %>
+<%= form_tag("/users/create_new_user") do %>
+    <%= submit_tag "Create New User" , :class =>"btn primary-btn"%>
+<% end %>
+<%= form_tag("/users/flight_stat_apn_response") do %>
+    <%= submit_tag "Send Push Notification", :class =>"btn primary-btn"%>
+<% end %>
