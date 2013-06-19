@@ -2,17 +2,26 @@ class UsersController < ApplicationController
  include CreateNotification
 
   def new
-
+    @user = User.new
+    if !APN::App.first.present?
+      User.create_app
+    end
   end
 
   def create_new_user
-
+    @user = User.create(params[:user])
+    if @user.save
+      @user.create_device params
+      flash[:notice] = 'User created successfully!'
+      redirect_to :action => "new"
+    end
   end
 
   def flight_stat_apn_response
     msg = get_flight_details
     user = User.all
-    user.each do|user|
+    logger.info"############USER############{user.inspect}"
+    user.each do |user|
       if !user.apple_token.nil?
         device = APN::Device.find_by_token(user.apple_token)
         notification = APN::Notification.new
@@ -28,7 +37,7 @@ class UsersController < ApplicationController
       end
     end
     flash[:notice] = 'Notification sent successfully!'
-    render :action => "new"
+    redirect_to :action => "new"
   end
 
   def flight_stat_android_response msg,user

@@ -1,9 +1,30 @@
 <% if flash[:notice].present? %>
     <p><%= flash[:notice] %></p>
 <% end %>
-<%= form_tag("/users/create_new_user") do %>
-    <%= submit_tag "Create New User" , :class =>"btn primary-btn"%>
-<% end %>
-<%= form_tag("/users/flight_stat_apn_response") do %>
-    <%= submit_tag "Send Push Notification", :class =>"btn primary-btn"%>
-<% end %>
+<div class=" buttonField clearfix">
+  <h4><i>Here you can create user to send notification.</i></h4>
+  <%= button_tag "Create New User" , :class =>"userCreate btn btn-primary"%>
+</div>
+<div class = "userForm" style="display: none;">
+  <%= form_for @user, :url => "/users/create_new_user" do |f| %>
+      <div class=" clearfix">
+        <lable>Name:</lable>
+        <%= f.text_field :name, :placeholder => 'required' %>
+      </div>
+      <div class="clearfix">
+        <lable>Apple Token:</lable>
+        <%= f.text_field :apple_token, :placeholder => 'required' %>
+      </div>
+      <div class="clearfix">
+        <lable>Android Token:</lable>
+        <%= f.text_field :android_token, :placeholder => 'required' %>
+        </div>
+        <div class="clearfix">
+          <%= f.submit "Save", :class => " btn btn-primary save_video"%>
+        </div>
+  <% end %>
+  </div>
+<h4><i>Click here to send notification.</i></h4>
+  <%= form_tag("/users/flight_stat_apn_response") do %>
+      <%= submit_tag "Send Push Notification", :class =>"btn btn-primary"%>
+  <% end %>
